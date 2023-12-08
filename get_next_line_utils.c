@@ -6,22 +6,13 @@
 /*   By: tcampbel <tcampbel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:49:02 by tcampbel          #+#    #+#             */
-/*   Updated: 2023/12/07 15:45:13 by tcampbel         ###   ########.fr       */
+/*   Updated: 2023/12/08 14:54:11 by tcampbel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while(str[i])
-		i++;
-	return (i);
-}
-
+/*
 void	ft_lstclear(t_list **list)
 {
 	t_list	*current;
@@ -62,6 +53,7 @@ void	ft_lstadd_back(t_list **list, t_list *new)
 	new_node = ft_lstlast(list);
 	new_node->next = new;
 }
+*/
 
 char	*ft_strchr(const char *str, int c)
 {
@@ -77,4 +69,88 @@ char	*ft_strchr(const char *str, int c)
 	if (*str == a)
 		return ((char *)str);
 	return (0);
+}
+
+char	*ft_strjoin(char const *str1, char const *str2)
+{
+	size_t	i;
+	size_t	j;
+	char	*str3;
+
+	i = 0;
+	j = 0;
+	str3 = (char *)malloc((ft_strlen(str1) + ft_strlen(str2)) + 1);
+	if (!str3)
+		return (NULL);
+	while (str1[i])
+	{
+		str3[i] = str1[i];
+		i++;
+	}
+	while (str2[j])
+	{
+		str3[i] = str2[j];
+		j++;
+		i++;
+	}
+	str3[i] = '\0';
+	return (str3);
+}
+
+char	*ft_strdup(const char *src)
+{
+	int		i;
+	char	*dest;
+
+	dest = malloc(ft_strlen(src) + 1);
+	if (!dest)
+		return (0);
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = 0;
+	return (dest);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*ptr;
+	size_t	max;
+
+	max = 0 - 1;
+	if (count != 0 && size != 0)
+		if (max / count < size)
+			return (0);
+	ptr = malloc(count * size);
+	if (ptr == 0)
+		return (0);
+	ft_bzero(ptr, count * size);
+	return (ptr);
+}
+
+void	*ft_bzero(void *s, size_t n)
+{
+	unsigned char	*str;
+
+	str = s;
+	while (n > 0)
+	{
+		*str = '\0';
+		n--;
+		str++;
+	}
+	return (s);
+}
+
+size_t	ft_strlen(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
