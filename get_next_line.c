@@ -5,109 +5,97 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcampbel <tcampbel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/01 11:54:58 by tcampbel          #+#    #+#             */
-/*   Updated: 2023/12/08 18:40:11 by tcampbel         ###   ########.fr       */
+/*   Created: 2023/12/11 16:47:46 by tcampbel          #+#    #+#             */
+/*   Updated: 2023/12/12 18:54:39 by tcampbel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char *ft_append(char *big_buffer, char *new_line)
+//This function takes both the static and buffer and joins them together, this is also where the static buffer memory is increased. The temp pointer is declared to the value of the result of strjoin. The functon then returns temp which then changes back to the static 
+
+char *ft_append(char *storage, char *buffer)
 {
 	char *temp;
 
-	temp = ft_strjoin(big_buffer, new_line);
-	free (big_buffer);
+	temp = ft_strjoin(storage, buffer);
+	free (storage);
 	return (temp);
 }
 
-char *lost_lines(char *big_buffer)
+//
+int	*find_line(char *storage, char *buffer)
 {
-	int		i;
-	int		j;
-	char	*leftover;
+//	char 	*new_line;
+	int	i;
 
 	i = 0;
-	j = 0;
-	while (big_buffer[i] && big_buffer[i] != '\n')
+	while (storage[i] != '\n' && storage[i])
 		i++;
-	if (big_buffer)
-		return (free (big_buffer), NULL);
-	if (big_buffer[i] == '\n')
+	if (storage[i] == '\n')
 		i++;
-	leftover = malloc((ft_strlen(big_buffer) - i) + 1);
-	if (!leftover)
-		return (NULL);
-	while (big_buffer[i + j])
+	buffer[i--] = '\0';
+	while (i > -1)
 	{
-		leftover[j] = big_buffer[i + j];
-		j++;
+		buffer[i] = storage[i];
+		i--;
 	}
-	leftover[j] = '\n';
-	free (big_buffer);
-	return (leftover);
+//	new_line = ft_substr(storage, 0, i);
+	return (0);
 }
 
-
-
-char	*extract_line(char *big_buffer)
+char	*find_end(char *storage)
 {
-	char *x_line;
 	int		i;
+	char	*ptr;
 
 	i = 0;
-	if (!big_buffer || big_buffer[0])
-		return (NULL);
-	while (big_buffer[i] && big_buffer[i] != '\n')
+	ptr = ft_calloc(ft_strlen(storage + 1), 1);
+	while (storage[i] && storage[i] != '\n')
 		i++;
-	if (big_buffer[i] == '\n')
+	if (storage[i] == '\n')
 		i++;
-	x_line = malloc(BUFFER_SIZE + 1);
-	if (!x_line)
-		return (NULL);
-	i = 0;
-	while (big_buffer[i] && big_buffer[i] != '\n')
-	{
-		x_line[i] = big_buffer[i];
-		i++;
-	}
-	if (big_buffer[i] == '\n')
-		x_line[i++] = '\n';
-	x_line[i] = '\0';
-	return (x_line);
+	ptr = ft_substr(storage, i, (ft_strlen(storage) - i));
+//	printf("%zu", ft_strlen(ptr));
+	free (storage);
+	return (ptr);
 }
 
-char *read_line(char *big_buffer, int fd)
+char	*get_next_line(int fd)
 {
-	int		bytes_read;
-	char	*new_line;
-
+	static char	*storage;
+	char		buffer[BUFFER_SIZE + 100];
+	int			bytes_read;
+	char		*result;
+//	int			num;
+	result = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+//	buffer = ft_calloc(BUFFER_SIZE + 1, 1);
+//	if (!buffer)
+//		return (NULL);
+	if (!storage)
+		storage = ft_calloc(1,1);
+	else
+		storage = find_end(storage);
 	bytes_read = 1;
-	big_buffer = malloc(BUFFER_SIZE + 1);
-	if (!big_buffer)
-		return (NULL);
-	while (!(ft_strchr(big_buffer, '\n'))) 
+	while (bytes_read != 0 && (!(ft_strchr(storage, '\n'))))
 	{
-		bytes_read = read(fd, big_buffer, BUFFER_SIZE);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read <= 0)
-			return (free (big_buffer), NULL);
-		big_buffer[bytes_read] = '\0';
-		new_line = ft_append(new_line, new_line);
+		{
+			free(storage);
+//			if (buffer)
+//				return (free(buffer), NULL);
+			return (NULL);
+		}
+		buffer[bytes_read] = '\0';
+		storage = ft_append(storage, buffer);
 	}
-	free (big_buffer);
-	new_line = extract_line(big_buffer);
-	big_buffer = lost_lines(big_buffer);
-	return (new_line);
-}
-
-
-char *get_next_line (int fd)
-{
-	static char	*big_buffer;
-	char		*line;
-
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
-		return (NULL);
-	line = read_line(big_buffer, fd);
-	return (line);
+	find_line(storage, buffer);
+	printf("%s", storage);
+//	num = ft_strlen(result);
+//	printf("%d", num);
+	result = ft_strdup(buffer);
+	return (result);
 }

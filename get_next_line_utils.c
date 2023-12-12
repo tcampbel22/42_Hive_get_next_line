@@ -6,7 +6,7 @@
 /*   By: tcampbel <tcampbel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:49:02 by tcampbel          #+#    #+#             */
-/*   Updated: 2023/12/08 14:54:11 by tcampbel         ###   ########.fr       */
+/*   Updated: 2023/12/12 16:44:41 by tcampbel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*ft_strjoin(char const *str1, char const *str2)
 
 	i = 0;
 	j = 0;
-	str3 = (char *)malloc((ft_strlen(str1) + ft_strlen(str2)) + 1);
+	str3 = (char *)ft_calloc((ft_strlen(str1) + ft_strlen(str2)) + 1, 1);
 	if (!str3)
 		return (NULL);
 	while (str1[i])
@@ -102,7 +102,7 @@ char	*ft_strdup(const char *src)
 	int		i;
 	char	*dest;
 
-	dest = malloc(ft_strlen(src) + 1);
+	dest = ft_calloc(ft_strlen(src) + 1, 1);
 	if (!dest)
 		return (0);
 	i = 0;
@@ -153,4 +153,26 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
+}
+
+char	*ft_substr(char const *str, unsigned int start, size_t len)
+{
+	char	*sub;
+	size_t	i;
+
+	i = 0;
+	if ((len + start) > ft_strlen(str))
+		len = ft_strlen(str) - start;
+	if (!str || ft_strlen(str) <= start || len == 0)
+		return (ft_strdup(""));
+	sub = (char *)ft_calloc((len + 1), 1);
+	if (!sub)
+		return (NULL);
+	while (str[start + i] && len - i > 0)
+	{
+		sub[i] = str[i + start];
+		i++;
+	}
+	sub[i] = '\0';
+	return (sub);
 }
