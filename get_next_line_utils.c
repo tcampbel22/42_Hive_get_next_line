@@ -6,56 +6,13 @@
 /*   By: tcampbel <tcampbel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:49:02 by tcampbel          #+#    #+#             */
-/*   Updated: 2023/12/12 16:44:41 by tcampbel         ###   ########.fr       */
+/*   Updated: 2023/12/13 18:42:40 by tcampbel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-/*
-void	ft_lstclear(t_list **list)
-{
-	t_list	*current;
-	t_list *temp;
-
-	current = *list;
-	if (!list)
-		return (NULL);
-	while (current)
-	{
-		*temp = current;
-		current = current->next;
-		free(temp);
-	}
-	*list = NULL;
-}
-
-t_list	*ft_lstlast(t_list *list)
-{
-	t_list	*current;
-
-	current = *list;
-	if (!list)
-		return (NULL);
-	while (current)
-		current = current->next;
-	return (current);
-}
-
-void	ft_lstadd_back(t_list **list, t_list *new)
-{
-	t_list new_node
-	if (!list)
-		return (NULL);
-	if (!*list)
-		*lst = new;
-		return (NULL);
-	new_node = ft_lstlast(list);
-	new_node->next = new;
-}
-*/
-
-char	*ft_strchr(const char *str, int c)
+char	*ft_strchr(char *str, int c)
 {
 	char	a;
 
@@ -71,7 +28,7 @@ char	*ft_strchr(const char *str, int c)
 	return (0);
 }
 
-char	*ft_strjoin(char const *str1, char const *str2)
+char	*ft_strjoin(char *str1, char *str2)
 {
 	size_t	i;
 	size_t	j;
@@ -79,7 +36,7 @@ char	*ft_strjoin(char const *str1, char const *str2)
 
 	i = 0;
 	j = 0;
-	str3 = (char *)ft_calloc((ft_strlen(str1) + ft_strlen(str2)) + 1, 1);
+	str3 = (char *)malloc((ft_strlen(str1) + ft_strlen(str2)) + 1);
 	if (!str3)
 		return (NULL);
 	while (str1[i])
@@ -97,14 +54,14 @@ char	*ft_strjoin(char const *str1, char const *str2)
 	return (str3);
 }
 
-char	*ft_strdup(const char *src)
+char	*ft_strdup(char *src)
 {
 	int		i;
 	char	*dest;
 
-	dest = ft_calloc(ft_strlen(src) + 1, 1);
+	dest = malloc(ft_strlen(src) + 1);
 	if (!dest)
-		return (0);
+		return (NULL);
 	i = 0;
 	while (src[i])
 	{
@@ -115,37 +72,7 @@ char	*ft_strdup(const char *src)
 	return (dest);
 }
 
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*ptr;
-	size_t	max;
-
-	max = 0 - 1;
-	if (count != 0 && size != 0)
-		if (max / count < size)
-			return (0);
-	ptr = malloc(count * size);
-	if (ptr == 0)
-		return (0);
-	ft_bzero(ptr, count * size);
-	return (ptr);
-}
-
-void	*ft_bzero(void *s, size_t n)
-{
-	unsigned char	*str;
-
-	str = s;
-	while (n > 0)
-	{
-		*str = '\0';
-		n--;
-		str++;
-	}
-	return (s);
-}
-
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *s)
 {
 	int	i;
 
@@ -155,17 +82,17 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_substr(char const *str, unsigned int start, size_t len)
+char	*ft_substr(char *str, size_t start, size_t len)
 {
 	char	*sub;
 	size_t	i;
 
 	i = 0;
-	if ((len + start) > ft_strlen(str))
-		len = ft_strlen(str) - start;
 	if (!str || ft_strlen(str) <= start || len == 0)
 		return (ft_strdup(""));
-	sub = (char *)ft_calloc((len + 1), 1);
+	if ((len + start) > ft_strlen(str))
+		len = ft_strlen(str) - start;
+	sub = (char *)malloc((len + 1));
 	if (!sub)
 		return (NULL);
 	while (str[start + i] && len - i > 0)
