@@ -17,6 +17,12 @@ char	*ft_append(char *storage, char *buffer)
 	char	*temp;
 
 	temp = ft_strjoin(storage, buffer);
+	if (!temp)
+	{
+		free(temp)
+		temp = NULL;
+		return (NULL);
+	}
 	free(storage);
 	storage = NULL;
 	return (temp);
@@ -35,6 +41,12 @@ char	*find_line(char *storage)
 	if (storage[i] == '\n')
 		i++;
 	new_line = ft_substr(storage, 0, i);
+	if (!new_line)
+	{
+		free(new_line);
+		new_line = NULL;
+		return (NULL);
+	}
 	return (new_line);
 }
 
@@ -55,6 +67,12 @@ char	*find_end(char *storage)
 	if (storage[i] == '\n')
 		i++;
 	ptr = ft_substr(storage, i, (ft_strlen(storage) - i));
+	if (!ptr)
+	{
+		free(ptr);
+		ptr = NULL;
+		return (NULL);
+	}	
 	free (storage);
 	storage = NULL;
 	return (ptr);
