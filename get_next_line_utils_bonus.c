@@ -6,11 +6,11 @@
 /*   By: tcampbel <tcampbel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:49:02 by tcampbel          #+#    #+#             */
-/*   Updated: 2023/12/15 15:04:33 by tcampbel         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:16:43 by tcampbel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_strchr(char *str, int c)
 {
