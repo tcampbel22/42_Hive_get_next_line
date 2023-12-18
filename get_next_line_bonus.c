@@ -6,7 +6,7 @@
 /*   By: tcampbel <tcampbel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 16:47:46 by tcampbel          #+#    #+#             */
-/*   Updated: 2023/12/15 15:32:26 by tcampbel         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:09:27 by tcampbel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ char	*read_line(int fd, char *storage)
 
 char	*get_next_line(int fd)
 {
-	static char	*storage[257];
+	static char	*storage[256];
 	char		*line;
 
-	if (fd < 0 || fd > 257 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > 256 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (ft_strchr(storage[fd], '\n') == NULL)
 		storage[fd] = read_line(fd, storage[fd]);

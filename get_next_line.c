@@ -6,7 +6,7 @@
 /*   By: tcampbel <tcampbel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 16:47:46 by tcampbel          #+#    #+#             */
-/*   Updated: 2023/12/15 15:11:33 by tcampbel         ###   ########.fr       */
+/*   Updated: 2023/12/18 14:40:26 by tcampbel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ char	*find_end(char *storage)
 	end_line = ft_substr(storage, i, (ft_strlen(storage) - i));
 	if (!end_line)
 		return (ft_free(&storage));
-	free (storage);
-	storage = NULL;
+	ft_free(&storage);
 	return (end_line);
 }
 
@@ -89,7 +88,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (ft_strchr(storage, '\n') == NULL)
+	if (!ft_strchr(storage, '\n'))
 		storage = read_line(fd, storage);
 	if (!storage)
 		return (NULL);
